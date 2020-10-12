@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import geopandas as gpd
 import pandas as pd
 
-import shutil,os
+import shutil,os,sys
 
 
 from config import shp_target_region, shp_col_name, shp_target_value, sampling_percent
@@ -63,7 +63,8 @@ def clip_points(gdf_probe, gdf_shp):
     gdf_target = gdf_shp.query(shp_col_name +"=='"+ shp_target_value +"'")
     #gdf_target = gdf_shp[gdf_shp.NAME_2 == 'Bagmati']
     gdf_probe_clipped = gpd.clip(gdf_probe, gdf_target)
-    
+    if len(gdf_probe_clipped)==0:
+        sys.exit("No Points in selected Region")
     return gdf_probe_clipped, gdf_target
 
 def plot_map(gdf_probe_clipped, gdf_shp, msg='Map'):
