@@ -104,12 +104,16 @@ def prepare_csv_files(df,csv_dir):
 		df_single_ap = df.query('ap_id=="'+ap_id+'"')
 		
 		if len(df_single_ap) < 10:# skip ap_id with less than 10 data points
+			print("Too Few INPUT Data Points for ID: ", ap_id)
 			continue
 		
 		cnt += 1
 		
 		df_single_ap.to_csv(csv_dir+ap_id+'.csv',index=False)
-	
+	if cnt ==0:
+		print("Route Points cannot be generated as all the selected ap_id's have very few input data points")
+		print ("\n\nPLEASE PROVIDE NEW INPUT WITH SUFFICIENT DATA \n\n")
+		sys.exit("Very Few Data")
 	print (cnt ,' csv file prepared -> ', csv_dir)
 	
 	return None

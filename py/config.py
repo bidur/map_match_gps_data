@@ -2,7 +2,7 @@
 # target boundary # NEPAL
 shp_target_region = 'raw_data/gadm36_NPL_shp/gadm36_NPL_2.shp'
 shp_col_name      = 'NAME_2'   # config.py
-shp_target_value  = 'Bagmati'   # config.py
+shp_target_value  = 'Gandaki'   # config.py
 
 # say how much data to be used?
 sampling_percent = 5  # valid values 1 to 100
