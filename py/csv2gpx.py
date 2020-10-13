@@ -3,7 +3,7 @@ from datetime import datetime
 import pandas as pd
 import glob, shutil
 from functions import remove_dir,check_dir
-
+import pathlib
 # "ap_id","timestamp","latitude","longitude" s.strip('""')
 
 
@@ -68,10 +68,12 @@ def output_xml(datapoints, output_file):
 
 
 def convert_csv2gpx(csv_dir, gpx_dir):
-	
-	for fname in glob.glob(csv_dir+'*.csv'):
+	csv_files = glob.glob(os.path.join(csv_dir, '*.csv'))
+	for fname in csv_files:
+		print (fname)
 		head, tail = os.path.split(fname)
-		output_file = gpx_dir + tail +'.gpx'
+		tail_gpx= tail +'.gpx'
+		output_file = pathlib.Path(gpx_dir ,tail_gpx)
 		with open(fname, 'r') as f:
 			lines = f.readlines()
 			
@@ -109,7 +111,8 @@ def prepare_csv_files(df,csv_dir):
 		
 		cnt += 1
 		
-		df_single_ap.to_csv(csv_dir+ap_id+'.csv',index=False)
+		csv_file = str(ap_id)+'.csv'
+		df_single_ap.to_csv(pathlib.Path(csv_dir,csv_file),index=False)
 	if cnt ==0:
 		print("Route Points cannot be generated as all the selected ap_id's have very few input data points")
 		print ("\n\nPLEASE PROVIDE NEW INPUT WITH SUFFICIENT DATA \n\n")

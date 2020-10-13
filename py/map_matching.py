@@ -1,4 +1,4 @@
-import os
+import os,sys
 
 from csv2gpx import  prepare_csv_files, convert_csv2gpx
 from gpx2csv import convert_resgpx2csv
@@ -26,7 +26,12 @@ def apply_map_matching():
 	os.chdir(MAP_MATCHING_PATH)
 	print("Current Working Directory " , os.getcwd())
 	
-	input_gpx_files = GPX_DIR.replace(MAP_MATCHING_PATH,'') + '*.gpx'
+	print('MAP_MATCHING_PATH: ', MAP_MATCHING_PATH)
+	print ('GPX_DIR: ', GPX_DIR)
+	
+	input_gpx_dir = GPX_DIR#.replace(MAP_MATCHING_PATH,'')  
+
+	input_gpx_files = os.path.join(input_gpx_dir, '*.gpx') #input_gpx_dir + '*.gpx'
 	create_route_command ='java -jar matching-web/target/graphhopper-map-matching-web-1.0-SNAPSHOT.jar match '+ input_gpx_files	
 	os.system(create_route_command)
 	print ('\ncompleted: ' ,create_route_command)

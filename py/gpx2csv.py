@@ -6,7 +6,7 @@ from shapely.geometry import Point # converting latitude/longtitude to geometry
 from shapely.ops import nearest_points
 import numpy as np
 import datetime
-import os,glob, shutil
+import os,glob, shutil, pathlib
  
 from functions import remove_dir,check_dir
 
@@ -333,16 +333,20 @@ def convert_resgpx2csv(original_dir, gpx_dir, output_dir):
 	
 	#arr_ts_error =['AP621860' , 'AP620518', 'AP621530','AP621536','AP621521','AP621245','AP621237','AP621207','AP621083','AP620578']
 	#arr_ts_error = []
-	print ('Matched gpx -> ' +gpx_dir+'*.res.gpx')
+	print ('Matched gpx -> ' + str(gpx_dir) +'*.res.gpx')
 	
-	for gpx_file_name in glob.glob(gpx_dir+'*.res.gpx'):
+	res_gpx_files = glob.glob(os.path.join(gpx_dir, '*.res.gpx'))
+	for gpx_file_name in res_gpx_files:
 		
 		dir_name, file_name = os.path.split(gpx_file_name)
 		ap_id = file_name.split('.')[0]
 		
 			
-		output_file_name = output_dir + ap_id + '_res.csv'		
-		original_probe_file =  original_dir + ap_id +'.csv' # for reading timestamp
+		output_file_name_only =   ap_id + '_res.csv'
+		output_file_name = pathlib.Path(output_dir,output_file_name_only)
+		
+		original_file_name_only  =  ap_id +'.csv'
+		original_probe_file =  pathlib.Path(original_dir , original_file_name_only) # for reading timestamp
 		
 		print (' completed for '+ ap_id )
 		
@@ -393,7 +397,9 @@ def convert_resgpx2csv(original_dir, gpx_dir, output_dir):
 def get_ap_id_done(path):
 				 
 	arr_ap_done =[]
-	for f in glob.glob(path+"*.csv"):
+	#csv_dir = pathlib.Path('/home/bidur/map_match_gps_data/input/csv')
+	csv_files = glob.glob(os.path.join(path, '*.csv'))
+	for f in csv_files:
 		dir_name, file_name = os.path.split(f)
 		
 		arr_ap_done.append((file_name.split('_res')[0]))
