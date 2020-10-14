@@ -1,5 +1,11 @@
 import pathlib
 
+# target boundary # Philippines
+'''
+shp_target_region = 'raw_data/phl/Country.shp'
+shp_col_name      = 'NAME_ENGLI'   # config.py
+shp_target_value  = 'Philippines'   # config.py
+'''
 # target boundary # NEPAL
 shp_target_region = 'raw_data/gadm36_NPL_shp/gadm36_NPL_2.shp'
 shp_col_name      = 'NAME_2'   # config.py
@@ -11,7 +17,7 @@ target_osm_pbf = 'nepal-latest.osm.pbf' #'philippines-latest.osm.pbf' #'nepal-la
 
 ################ DO NOT EDIT BELOW
 # Files and directory
-ROOT_DIR 		= '/home/bidur/map_match_gps_data/' #'C:/Users/epinurse/Desktop/PHL-Mobility_data/map_match_gps_data-main/'
+ROOT_DIR 		= '/home/bidur/map_match_gps_data/' #'C:/Users/epinurse/Desktop/PHL_Mobility_data/map_match_gps_data-main/'
 PY_DIR		 = pathlib.Path(ROOT_DIR, 'py')
 
 INPUT_DIR 		= pathlib.Path(ROOT_DIR, 'input')

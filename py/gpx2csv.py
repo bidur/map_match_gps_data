@@ -330,12 +330,13 @@ def convert_resgpx2csv(original_dir, gpx_dir, output_dir):
 	
 	print('\nconvert_resgpx2csv ->',output_dir)
 	arr_done = get_ap_id_done(output_dir)
+
+	print ('Matched gpx -> ' + str(gpx_dir) +'/*.gpx')
 	
-	#arr_ts_error =['AP621860' , 'AP620518', 'AP621530','AP621536','AP621521','AP621245','AP621237','AP621207','AP621083','AP620578']
-	#arr_ts_error = []
-	print ('Matched gpx -> ' + str(gpx_dir) +'*.res.gpx')
+	res_gpx_files = glob.glob(os.path.join(gpx_dir, '*.gpx'))
 	
-	res_gpx_files = glob.glob(os.path.join(gpx_dir, '*.res.gpx'))
+	#print(res_gpx_files)
+	
 	for gpx_file_name in res_gpx_files:
 		
 		dir_name, file_name = os.path.split(gpx_file_name)
@@ -358,7 +359,7 @@ def convert_resgpx2csv(original_dir, gpx_dir, output_dir):
 		#	continue
 			
 		df_ref = read_reference_ts_data(original_probe_file)
-		if (len(df_ref) <10):
+		if (len(df_ref) <5):
 			print ('<<<'+ap_id+'>>> input pts<10')
 			continue
 		
@@ -406,7 +407,30 @@ def get_ap_id_done(path):
 	  
 	#print (arr_ap_done)
 	return arr_ap_done
+	
+	
 '''	
+import pathlib
+
+ROOT_DIR 		= '/home/bidur/map_match_gps_data/' #'C:/Users/epinurse/Desktop/PHL_Mobility_data/map_match_gps_data-main/'
+
+INPUT_DIR 		= pathlib.Path(ROOT_DIR, 'input')
+OUTPUT_DIR 		= pathlib.Path(ROOT_DIR, 'output')
+
+input_file = pathlib.Path(INPUT_DIR, '1_input.csv')  
+input_anonymized = pathlib.Path(INPUT_DIR, '2_anonymized_input.csv') 
+input_anonymized_clipped = pathlib.Path(INPUT_DIR, '3_anonymized_clipped.csv') 
+input_preprocessed = pathlib.Path(INPUT_DIR, '4_preprocessed.csv')  # preprocessed sampled daa
+
+######## map-matching
+
+MAP_MATCHING_PATH 	= pathlib.Path(ROOT_DIR, 'map-matching-master')
+GPX_DIR 			= pathlib.Path(MAP_MATCHING_PATH , 'matching-web/src/test/resources/target/')
+CSV_DIR 			= pathlib.Path(INPUT_DIR, 'csv')
+RES_CSV_DIR 		= pathlib.Path(OUTPUT_DIR ,'res_csv') # resultant of mapmatching
+CACHE_LOC_DIR 		= pathlib.Path(MAP_MATCHING_PATH , 'graph-cache')
+
+
 def main():
 	
 	original_csv_dir = 'input/csv/'
@@ -415,9 +439,10 @@ def main():
 	
 	#remove_dir(output_dir)
 	#check_dir(output_dir)
+
+	df_mapped_route = convert_resgpx2csv(CSV_DIR, GPX_DIR, RES_CSV_DIR) # Convert road mapped GPS Probe to CSV and update timestamp
 	
-	
-	convert_resgpx2csv(original_csv_dir,res_gpx, output_dir)	
+	print (df_mapped_route)
 	
 
 

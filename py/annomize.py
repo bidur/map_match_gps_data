@@ -28,13 +28,13 @@ def anonymize_column_values(column_to_anonymize, in_file, op_file):
 	            row[column_to_anonymize]  = ids_mapped[row[column_to_anonymize]]
 	            writer.writerow(row)
  
- 
+'''
  
 if __name__ == '__main__':
 	
 	print("ANONYMIZE COLUMN DATA IN CSV FILE")
 	
-	input_csv_file 		=  "AP520543.csv"
+	input_csv_file 		=  "/home/bidur/map_match_gps_data/raw_data/gps_probe_Nepal.csv"#"/home/bidur/map_match_gps_data/raw_data/PHL_20190703_BOM.csv"
 	output_file 		= 'travel_path_anonymize.csv'
 	column_to_anonymize = 'ap_id'
 	
@@ -42,13 +42,7 @@ if __name__ == '__main__':
 	
 	print ('------Task Complete ------')
 	print ('Check the output file: ', output_file)
-	
-	'''
-	print "Check the mapping"
-	df = pd.read_csv(op_file)
-	print df.groupby(['ap_id', 'original_ap_id']).size()
-	'''
-
+'''
 """
 Reference: https://qxf2.com/blog/anonymize-data-using-faker/
 This script will Anonymize the data in original_data.csv file to Anonymized form in anonymized_data csv file
