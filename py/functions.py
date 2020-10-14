@@ -80,9 +80,10 @@ def plot_map(gdf_probe_clipped, gdf_shp, msg='Map'):
 
 def get_points_within_target_region(gps_csv, display_plot = False):
     # save original input file
-    shutil.copy(gps_csv, input_file)
-    
-    
+    #shutil.copy(gps_csv, input_file)
+    df = pd.read_csv(gps_csv) # pandas can deal with encodings
+    df.to_csv(input_file,index=False)
+        
     # anonymize id column
     anonymize_column_values( 'ap_id', input_file, input_anonymized)
     
