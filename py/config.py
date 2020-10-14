@@ -17,12 +17,12 @@ target_osm_pbf = 'nepal-latest.osm.pbf' #'philippines-latest.osm.pbf' #'nepal-la
 
 ################ DO NOT EDIT BELOW
 # Files and directory
-ROOT_DIR 		= '/home/bidur/map_match_gps_data/' #'C:/Users/epinurse/Desktop/PHL_Mobility_data/map_match_gps_data-main/'
+ROOT_DIR 		=  '/home/bidur/map_match_gps_data/' #'C:/Users/epinurse/Desktop/PHL_Mobility_data/map_match_gps_data-main/'
 PY_DIR		 = pathlib.Path(ROOT_DIR, 'py')
 
 INPUT_DIR 		= pathlib.Path(ROOT_DIR, 'input')
 OUTPUT_DIR 		= pathlib.Path(ROOT_DIR, 'output')
-TEMP_DIR 		= pathlib.Path(OUTPUT_DIR, 'temp_csv') 
+#TEMP_DIR 		= pathlib.Path(OUTPUT_DIR, 'temp_csv') 
 
 input_file = pathlib.Path(INPUT_DIR, '1_input.csv')  
 input_anonymized = pathlib.Path(INPUT_DIR, '2_anonymized_input.csv') 

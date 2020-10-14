@@ -8,7 +8,7 @@ import shutil,os,sys
 from config import shp_target_region, shp_col_name, shp_target_value, sampling_percent
 
 from config import input_file, input_anonymized, input_anonymized_clipped
-from config import TEMP_DIR,INPUT_DIR, OUTPUT_DIR,GPX_DIR, RES_CSV_DIR, CSV_DIR, CACHE_LOC_DIR
+from config import INPUT_DIR, OUTPUT_DIR,GPX_DIR, RES_CSV_DIR, CSV_DIR, CACHE_LOC_DIR
 
 from annomize import anonymize_column_values
 
@@ -26,7 +26,6 @@ def initialize():
     # create necessary directories
     check_dir(INPUT_DIR)
     check_dir(OUTPUT_DIR)
-    check_dir(TEMP_DIR)
     check_dir(GPX_DIR)
     check_dir(CSV_DIR)
     check_dir(RES_CSV_DIR)
