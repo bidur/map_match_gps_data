@@ -111,8 +111,9 @@ def prepare_csv_files(df,csv_dir):
 			continue
 		
 		cnt += 1
-		
+		df_single_ap = df_single_ap.sort_values('timestamp')
 		csv_file = str(ap_id)+'.csv'
+		print('***sorted input: ', csv_file)
 		df_single_ap.to_csv(pathlib.Path(csv_dir,csv_file),index=False)
 		
 	if cnt ==0:

@@ -8,7 +8,7 @@ import shutil,os,sys
 from config import shp_target_region, shp_col_name, shp_target_value, sampling_percent
 
 from config import input_file, input_anonymized, input_anonymized_clipped
-from config import INPUT_DIR, OUTPUT_DIR,GPX_DIR, RES_CSV_DIR, CSV_DIR, CACHE_LOC_DIR
+from config import INPUT_DIR, OUTPUT_DIR,GPX_DIR, RES_CSV_DIR, CSV_DIR, CACHE_LOC_DIR, RES_CSV_GH_OP_DIR
 
 from annomize import anonymize_column_values
 
@@ -21,6 +21,7 @@ def initialize():
     remove_dir(CSV_DIR)
     remove_dir(RES_CSV_DIR)
     remove_dir(CACHE_LOC_DIR) # remove old map cache
+    remove_dir(RES_CSV_GH_OP_DIR)
 
 
     # create necessary directories
@@ -29,6 +30,7 @@ def initialize():
     check_dir(GPX_DIR)
     check_dir(CSV_DIR)
     check_dir(RES_CSV_DIR)
+    check_dir(RES_CSV_GH_OP_DIR)
     
     print("Cleaning dirs: input/ and output/ ")
     return
@@ -77,16 +79,19 @@ def plot_map(gdf_probe_clipped, gdf_shp, msg='Map'):
     return
   
 
-def get_points_within_target_region(gps_csv, display_plot = False):
+def get_points_within_target_region(gps_csv, anonymize = False, display_plot = False):
     # save original input file
     #shutil.copy(gps_csv, input_file)
     df = pd.read_csv(gps_csv) # pandas can deal with encodings
+    df.sort_values(by=['timestamp'])
     df.to_csv(input_file,index=False)
         
     # anonymize id column
-    anonymize_column_values( 'ap_id', input_file, input_anonymized)
+    if anonymize:
+        anonymize_column_values( 'ap_id', input_file, input_anonymized)
+        gps_csv = input_anonymized
     
-    df_raw    = pd.read_csv(input_anonymized)
+    df_raw    = pd.read_csv(gps_csv)
     df_raw['ap_id'] = df_raw['ap_id'].apply(str) # ap_id are assumed to be string
     gdf_probe = df2gdf(df_raw)
     

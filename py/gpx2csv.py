@@ -9,7 +9,7 @@ import datetime
 import os,glob, shutil, pathlib
  
 from functions import remove_dir,check_dir
-
+from config import RES_CSV_GH_OP_DIR
 
 def check_dir(path):
     if not os.path.exists(path):
@@ -331,9 +331,9 @@ def convert_resgpx2csv(original_dir, gpx_dir, output_dir):
 	print('\nconvert_resgpx2csv ->',output_dir)
 	arr_done = get_ap_id_done(output_dir)
 
-	print ('Matched gpx -> ' + str(gpx_dir) +'/*.gpx')
+	print ('Matched gpx -> ' + str(gpx_dir) +'/*.res.gpx')
 	
-	res_gpx_files = glob.glob(os.path.join(gpx_dir, '*.gpx'))
+	res_gpx_files = glob.glob(os.path.join(gpx_dir, '*.res.gpx'))
 	
 	#print(res_gpx_files)
 	
@@ -378,23 +378,75 @@ def convert_resgpx2csv(original_dir, gpx_dir, output_dir):
 
 			 
 		df_route = map_timestamp_to_route(df_route,df_ref)
+		ap_res_csv = pathlib.Path(RES_CSV_GH_OP_DIR, ap_id + '_GH_OP.csv')
+		#ap_res_csv =  ap_id+'_raw_GH.csv'
+		df_route.to_csv(ap_res_csv,index=False)#########
+		print("saved+++++++++++++++++",ap_res_csv)
+		
+		
+		
 		
 		try:
-			df_route = populate_timestamp(df_route)	
+			df_route = populate_ts_new(ap_res_csv)
 		except:
-			print ('<<<'+ap_id+'>>> timestamp probelm')
+			print ('<<<'+ap_id+'>>> timestamp problem')
 			continue
 		
 		# copy all data from input reference file to final routes
-		df_route = copy_reference_data_to_routes(df_ref, df_route)
+		#df_route = copy_reference_data_to_routes(df_ref, df_route)
 
 		df_route.to_csv(output_file_name , index=False)
-		#print ("Completed: ", output_file_name )
+		print ("Completed:####### ", output_file_name )
 		df_route_all = df_route_all.append(df_route)
+	
 	
 	return df_route_all
 		
+from geopy.distance import distance
 
+def populate_ts_new(csv_file):
+	df_all = pd.read_csv(csv_file)
+	df_all = df_all.sort_values(by=['timestamp'], ascending=True)
+	df_ts = df_all[~df_all['timestamp'].isnull()] # remove all rows with timestamp null
+	#df_ts['timestamp'] = pd.to_datetime(df_ts['timestamp']).dt.round('1s')
+	
+	arr_ids = df_ts.id.tolist()
+
+	for i in range(len(arr_ids) - 1):
+		
+		ts1 = datetime.datetime.strptime(df_ts.iloc[i].timestamp, '%Y-%m-%d %H:%M:%S')
+		ts2 = datetime.datetime.strptime(df_ts.iloc[i+1].timestamp, '%Y-%m-%d %H:%M:%S')
+		#ts1=df_ts.iloc[i].timestamp
+		#ts2=df_ts.iloc[i+1].timestamp
+		id1 = df_ts.iloc[i].id
+		id2 = df_ts.iloc[i+1].id
+		ts_delta = (ts2-ts1)*1.0/(id2-id1)
+		
+		for j in range(id2-id1):
+			ts = ts1 + j* ts_delta
+			df_all.at[id1+j,'timestamp']=ts
+			
+	df_all = df_all.replace('', np.NaN) # replace empty cell with null values
+	df_all = df_all.dropna(subset=['timestamp']) # replace all rows with null values ( some timestamp cell are not populated -> remove those rows)
+	
+	# add distance travelled in each step
+	df_all = add_distance_col(df_all)
+	 
+	return df_all
+
+def add_distance_col(df_all):
+	df_all['dist'] = 0
+	for i in range(len(df_all)-1):
+		lat1 = df_all.iloc[i].latitude
+		lat2 = df_all.iloc[i+1].latitude
+		lon1 = df_all.iloc[i].longitude
+		lon2 = df_all.iloc[i+1].longitude
+		dist = distance((lat1,lon1), (lat2,lon2)).m
+		df_all.at[i+1,'dist']=dist
+	return df_all
+	
+	
+		
 def get_ap_id_done(path):
 				 
 	arr_ap_done =[]
