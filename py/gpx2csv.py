@@ -381,9 +381,7 @@ def convert_resgpx2csv(original_dir, gpx_dir, output_dir):
 		ap_res_csv = pathlib.Path(RES_CSV_GH_OP_DIR, ap_id + '_GH_OP.csv')
 		#ap_res_csv =  ap_id+'_raw_GH.csv'
 		df_route.to_csv(ap_res_csv,index=False)#########
-		print("saved+++++++++++++++++",ap_res_csv)
-		
-		
+		#print("saved+++++++++++++++++",ap_res_csv)
 		
 		
 		try:
@@ -396,7 +394,7 @@ def convert_resgpx2csv(original_dir, gpx_dir, output_dir):
 		#df_route = copy_reference_data_to_routes(df_ref, df_route)
 
 		df_route.to_csv(output_file_name , index=False)
-		print ("Completed:####### ", output_file_name )
+		#print ("Completed:####### ", output_file_name )
 		df_route_all = df_route_all.append(df_route)
 	
 	

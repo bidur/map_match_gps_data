@@ -102,29 +102,29 @@ def prepare_csv_files(df,csv_dir):
 	arr_ap_ids = df.ap_id.unique()
 	
 	cnt = 0
-	arr_id_with_few_data = []
+	arr_id_with_few_data = 0
 	for ap_id in arr_ap_ids:
 		df_single_ap = df.query('ap_id=="'+ap_id+'"')
 		
 		if len(df_single_ap) < 10:# skip ap_id with less than 10 data points
-			arr_id_with_few_data.append( ap_id )
+			arr_id_with_few_data += 1
 			continue
 		
 		cnt += 1
 		df_single_ap = df_single_ap.sort_values('timestamp')
 		csv_file = str(ap_id)+'.csv'
-		print('***sorted input: ', csv_file)
+		#print('***sorted input: ', csv_file)
 		df_single_ap.to_csv(pathlib.Path(csv_dir,csv_file),index=False)
 		
-	if cnt ==0:
+	if cnt == 0:
 		print("Route Points cannot be generated as all the selected ap_id's have very few input data points")
 		print ("\n\nPLEASE PROVIDE NEW INPUT WITH SUFFICIENT DATA \n\n")
 		sys.exit("Very Few Data")
 		
-	if len(arr_id_with_few_data)>0:
-		print('Very Few Data (<10 points) in: ',str(arr_id_with_few_data) )
+	elif arr_id_with_few_data>0:
+		print('Very Few Data (<10 points) in << ',str(arr_id_with_few_data) , " >> ap_ids")
 		
-	print (cnt ,' csv file prepared -> ', csv_dir)
+	print (cnt ,' csv file prepared and saved in ', csv_dir)
 	
 	return None
 '''		

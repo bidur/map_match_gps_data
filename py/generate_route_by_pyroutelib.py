@@ -114,9 +114,14 @@ def generate_route_main (ap_id,ts1, ts2, lat1,lon1, lat2, lon2, transport_mode, 
 	else:
 		router = Router(transport_mode) # use osm data from Internet
 		
-
-	start = router.findNode(lat1, lon1) # Find start and end nodes
-	end = router.findNode(lat2, lon2)
+	start = None
+	end = None
+	try:
+		start = router.findNode(lat1, lon1) # Find start and end nodes
+		end = router.findNode(lat2, lon2)
+	except:
+		print('cannot resolve start/end OSM node:',current_route)
+		return []
 
 
 	status = None
