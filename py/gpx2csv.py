@@ -19,7 +19,7 @@ def remove_dir(path):
 	if  os.path.exists(path):
 		 #os.system("rm -rf "+path)
 		 shutil.rmtree(path)
-		 
+'''		 
 def date_2_unix_sec(d):
     epoch = datetime.datetime.utcfromtimestamp(0)
     dt = None
@@ -43,7 +43,7 @@ def get_remining_rows( start, df_data):
                         })
         
     return rows  
-    
+''' 
 
 def convert_gpx2csv(ap_id, input_file_name):
 
@@ -107,7 +107,7 @@ def create_geometry(df, lon='longitude',lat='latitude'):
 	return gdf
        
 	
- 
+'''
 def update_missing_ts(df,ts0, i,cnt,time_delta):
 	start =  i - cnt
 	
@@ -117,7 +117,7 @@ def update_missing_ts(df,ts0, i,cnt,time_delta):
 		
 		df.iloc[j, df.columns.get_loc('timestamp')] = final_ts.strftime("%Y-%d-%m %H:%M:%S.%f")
   
-
+'''
 
 
 
@@ -233,7 +233,7 @@ def map_timestamp_to_staypoints( df_t, df_sp):
 	
 	return df_final [['id','ap_id','latitude','longitude','timestamp']]
 
-
+'''
 def copy_reference_data_to_routes(df_ref,df_route):
     arr_rows = []
     rows = []
@@ -289,8 +289,10 @@ def copy_reference_data_to_routes(df_ref,df_route):
 
     df_all = pd.DataFrame(arr_rows)
     return df_all
+'''
 
 
+'''
 def populate_timestamp(df):
 		
 	df = df.sort_values(by=['id'], ascending=True)
@@ -322,7 +324,7 @@ def populate_timestamp(df):
 	 
 	return df
 
-
+'''
 
 def convert_resgpx2csv(original_dir, gpx_dir, output_dir):
 	
@@ -400,7 +402,7 @@ def convert_resgpx2csv(original_dir, gpx_dir, output_dir):
 	
 	return df_route_all
 		
-from geopy.distance import distance
+
 
 def populate_ts_new(csv_file):
 	df_all = pd.read_csv(csv_file)
@@ -428,10 +430,11 @@ def populate_ts_new(csv_file):
 	df_all = df_all.dropna(subset=['timestamp']) # replace all rows with null values ( some timestamp cell are not populated -> remove those rows)
 	
 	# add distance travelled in each step
-	df_all = add_distance_col(df_all)
+	#df_all = add_distance_col(df_all)
 	 
 	return df_all
-
+'''
+#from geopy.distance import distance
 def add_distance_col(df_all):
 	df_all['dist'] = 0
 	for i in range(len(df_all)-1):
@@ -442,7 +445,7 @@ def add_distance_col(df_all):
 		dist = distance((lat1,lon1), (lat2,lon2)).m
 		df_all.at[i+1,'dist']=dist
 	return df_all
-	
+'''	
 	
 		
 def get_ap_id_done(path):
