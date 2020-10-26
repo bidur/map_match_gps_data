@@ -10,7 +10,9 @@ def anonymize_column_values(column_to_anonymize, in_file, op_file):
 	faker  = Faker()
  
 	# Create mappings of ids_mapped  to faked ids.
-	ids_mapped  = defaultdict(faker.msisdn) 
+	#ids_mapped  = defaultdict(faker.msisdn) 
+	ids_mapped  = defaultdict(faker.pyint) 
+	
 	# Other mappings can be done as well e.g. last_name, ssn, msisdn
     # msisdn=Mobile Station International Subscriber Directory Number
  
@@ -27,6 +29,8 @@ def anonymize_column_values(column_to_anonymize, in_file, op_file):
 	        for row in reader:
 	            row[column_to_anonymize]  = ids_mapped[row[column_to_anonymize]]
 	            writer.writerow(row)
+	            
+
  
 '''
  
