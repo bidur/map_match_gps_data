@@ -20,7 +20,7 @@ target_osm_pbf = 'philippines-latest.osm.pbf' #'philippines-latest.osm.pbf' #'ne
 
 ################ DO NOT EDIT BELOW
 # Files and directory
-ROOT_DIR 		=  '/home/bidur/0_a_map_match_gps_data/' #'C:/Users/epinurse/Desktop/PHL_Mobility_data/map_match_gps_data-main/'
+ROOT_DIR 		=  '/home/bidur/map_match_gps_data/' #'C:/Users/epinurse/Desktop/PHL_Mobility_data/map_match_gps_data-main/'
 PY_DIR		 = pathlib.Path(ROOT_DIR, 'py')
 
 
