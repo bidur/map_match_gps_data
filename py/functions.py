@@ -3,7 +3,7 @@ import geopandas as gpd
 import pandas as pd
 
 import shutil,os,sys
-import pathlib
+import pathlib,glob
 
 from config import shp_target_region, shp_col_name, shp_target_value, sampling_percent
 
@@ -40,7 +40,7 @@ def initialize():
     check_dir(RES_CSV_GH_OP_DIR)
     check_dir(BATCH_OUTPUT_DIR)
     
-    print("Cleaning dirs: input/ and output/ ")
+    #print("Cleaning dirs: input/ and output/ ")
     return
 
 
@@ -55,7 +55,12 @@ def remove_dir(path):
          shutil.rmtree(path)
 
  
-        
+def get_all_files_from_dir(csv_dir, file_type='*.csv'):
+    #os.chdir(csv_dir)
+    arr_csv=[]
+    for file in glob.glob(csv_dir+file_type):
+        arr_csv.append(file)
+    return arr_csv        
 
    
 def df2gdf(df_raw):
