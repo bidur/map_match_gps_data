@@ -1,4 +1,4 @@
-import pathlib
+import pathlib,os
 
 # target boundary # Philippines
 
@@ -15,12 +15,12 @@ shp_target_value  = 'Gandaki'   # config.py
 max_threads = 2 # How many threads to use?
 
 # say how much data to be used?
-sampling_percent = 20 # valid values 1 to 100
+sampling_percent = 10 # valid values 1 to 100
 target_osm_pbf = 'philippines-latest.osm.pbf' #'philippines-latest.osm.pbf' #'nepal-latest.osm.pbf' #'kyushu-latest.osm.pbf'#
 
 ################ DO NOT EDIT BELOW
 # Files and directory
-ROOT_DIR 		=  '/home/bidur/map_match_gps_data/' #'C:/Users/epinurse/Desktop/PHL_Mobility_data/map_match_gps_data-main/'
+ROOT_DIR 		=  os.getcsd()#'/home/bidur/map_match_gps_data/' #'C:/Users/epinurse/Desktop/PHL_Mobility_data/map_match_gps_data-main/'
 PY_DIR		 = pathlib.Path(ROOT_DIR, 'py')
 
 
