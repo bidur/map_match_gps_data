@@ -50,7 +50,8 @@ def apply_map_matching():
 	
 	return None
 
-def apply_map_matching_multithread(thread_id):    
+def apply_map_matching_multithread(thread_id):  
+    print('< apply_map_matching_multithread() >')
     
     os.chdir(MAP_MATCHING_PATH)
     print("Current Working Directory " , os.getcwd())
@@ -117,6 +118,8 @@ def map_match_csv2gpx(df_sample):
 
 def map_match_csv2gpx_multithread(df_sample):
     # Apply graphhopper MapMatching
+    print('< map_match_csv2gpx_multithread() >')
+    
     
     #1.prepare map cache
     write2file( str(max_threads) +",prepare_map_cache(),START," + str( datetime.now() )  )
@@ -175,7 +178,9 @@ def merge_csv(path):
 import threading
 
 def process_batch(thread_id, df_slice):
-    print('thread : ', thread_id)
+    print('< process_batch() >')
+
+    #print('thread : ', thread_id)
     #print('ap_ids : ', arr_ap_id)
     #display(df_slice.head())
     #INPUT_DIR         = pathlib.Path(ROOT_DIR, 'input')
@@ -207,6 +212,8 @@ def process_batch(thread_id, df_slice):
 
 def multithreaded_process( df_sample):
     
+    print('< multithreaded_process() >')
+    
     # break the task into smaller slices
     arr_ap_ids = list(df_sample.ap_id.unique())
     slice_size = int( len(arr_ap_ids) / max_threads )
@@ -220,7 +227,7 @@ def multithreaded_process( df_sample):
         slice_start = i* slice_size
         slice_end = (i+1) * slice_size
         
-        print (i ,' slice_start: ', slice_start , 'slice_end: ', slice_end)
+        #print (i ,' slice_start: ', slice_start , 'slice_end: ', slice_end)
         
         arr_ap_ids_slice = arr_ap_ids[slice_start:slice_end]        
         if (i+1 == max_threads): # last slice
