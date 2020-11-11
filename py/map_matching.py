@@ -118,7 +118,7 @@ def map_match_csv2gpx(df_sample):
 
 def map_match_csv2gpx_multithread(df_sample):
     # Apply graphhopper MapMatching
-    print('< map_match_csv2gpx_multithread() >')
+    #print('< map_match_csv2gpx_multithread() >')
     
     
     #1.prepare map cache
@@ -134,31 +134,8 @@ def map_match_csv2gpx_multithread(df_sample):
     print( "<< multithreaded_process() -> END " + str( datetime.now() )  )
     
     return df_mapped_route
-    '''
-    #2.prepare input to graphhopper
-    prepare_csv_files(df_sample,CSV_DIR) # csv2gpx.py
-    convert_csv2gpx(CSV_DIR,GPX_DIR)
-    
-    # 3. apply map matching
-    apply_map_matching() # match input GPS probe to road network
-    
-    
-    # 4. convert result to csv and popuate timestamp based on the input file
-    df_mapped_route = convert_resgpx2csv(CSV_DIR, GPX_DIR, RES_CSV_DIR) # Convert road mapped GPS Probe to CSV and update timestamp
-    
-    # gpx2csv.py -> get a single file
-    
-    if 'id' not in df_mapped_route.columns:
-        df_mapped_route.insert(0,'id',range(len(df_mapped_route)))# add a new id column
-        
-    df_mapped_route.to_csv(map_matched_gps_probe,index=False) # mobmap visualization without using OSM routes from pyRouteLib3
 
-    print ("\n\n Map Matching and route generation completed")
-    print (map_matched_gps_probe)
-    #shutil.copy(output_file, map_matched_gps_probe)
-    
-    return df_mapped_route
-    '''
+
 
 def merge_csv(path):
     
@@ -178,12 +155,7 @@ def merge_csv(path):
 import threading
 
 def process_batch(thread_id, df_slice):
-    print('< process_batch() >')
-
-    #print('thread : ', thread_id)
-    #print('ap_ids : ', arr_ap_id)
-    #display(df_slice.head())
-    #INPUT_DIR         = pathlib.Path(ROOT_DIR, 'input')
+    #print('< process_batch() >')
         
     thread_csv_dir = pathlib.Path(CSV_DIR, str(thread_id))
     check_dir (  thread_csv_dir  )
@@ -212,7 +184,7 @@ def process_batch(thread_id, df_slice):
 
 def multithreaded_process( df_sample):
     
-    print('< multithreaded_process() >')
+    #print('< multithreaded_process() >')
     
     # break the task into smaller slices
     arr_ap_ids = list(df_sample.ap_id.unique())
