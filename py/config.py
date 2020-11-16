@@ -11,11 +11,12 @@ shp_target_region = 'raw_data/gadm36_NPL_shp/gadm36_NPL_2.shp'
 shp_col_name      = 'NAME_2'   # config.py
 shp_target_value  = 'Gandaki'   # config.py
 '''
-
+min_gps_points_allowed = 5 # at least 5 input gps points must be present for each ap_id
+max_dist_per_hour_threshold = 100 # km
 max_threads = 2 # How many threads to use?
 
 # say how much data to be used?
-sampling_percent = 10 # valid values 1 to 100
+sampling_percent = 100 # valid values 1 to 100
 target_osm_pbf = 'philippines-latest.osm.pbf' #'philippines-latest.osm.pbf' #'nepal-latest.osm.pbf' #'kyushu-latest.osm.pbf'#
 
 ################ DO NOT EDIT BELOW
