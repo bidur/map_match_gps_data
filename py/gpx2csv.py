@@ -11,7 +11,7 @@ import os,glob, shutil, pathlib
 from functions import remove_dir,check_dir
 from functions import write2file
 
-from config import RES_CSV_GH_OP_DIR, OUTPUT_DIR
+from config import RES_CSV_GH_OP_DIR, OUTPUT_DIR, min_gps_points_allowed
 
 def check_dir(path):
     if not os.path.exists(path):
@@ -367,8 +367,8 @@ def convert_resgpx2csv(original_dir, gpx_dir, res_csv_op_dir):
 		#	continue
 			
 		df_ref = read_reference_ts_data(original_probe_file)
-		if (len(df_ref) <5):
-			#print ('<<<'+ap_id+'>>> input pts<10')
+		if (len(df_ref) < min_gps_points_allowed):
+			#print ('<<<'+ap_id+'>>> input pts<5')
 			continue
 		
 	 
@@ -379,8 +379,8 @@ def convert_resgpx2csv(original_dir, gpx_dir, res_csv_op_dir):
 			#print ('<<<'+ap_id+'>>> XML error')			
 			continue
 			
-		if (len(df_route) <10):
-			#print ('<<<'+ap_id+'>>> gpx pts<10')
+		if (len(df_route) < min_gps_points_allowed):
+			#print ('<<<'+ap_id+'>>> gpx pts<5')
 			continue
 				
 

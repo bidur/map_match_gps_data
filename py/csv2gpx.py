@@ -6,6 +6,8 @@ from functions import remove_dir,check_dir
 import pathlib
 # "ap_id","timestamp","latitude","longitude" s.strip('""')
 
+from config import min_gps_points_allowed
+
 
 def process_line(line):
     #print(line)
@@ -101,7 +103,7 @@ def prepare_csv_files(df,csv_dir):
 	for ap_id in arr_ap_ids:
 		df_single_ap = df.query('ap_id=="'+ap_id+'"')
 		
-		if len(df_single_ap) < 10:# skip ap_id with less than 10 data points
+		if len(df_single_ap) < min_gps_points_allowed:# skip ap_id with less than 5 data points
 			arr_id_with_few_data += 1
 			continue
 		
