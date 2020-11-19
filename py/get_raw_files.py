@@ -121,7 +121,7 @@ def filter_by_distance(df, log_file):# remove ap_ids with jump
     #fp_log2 = open(log_file.replace('.csv','_2.csv'), 'a')    
     #fp_log2.write( str(datetime.datetime.now())  ) 
     #fp_log2.write("ap_id,data_cnt,Zero_time_cnt,jump_cnt"+"\n")
-    fp_log.write(str( datetime.now() ) )
+    fp_log.write(str( datetime.now() ) +",,,,,,,,,,,\n")
     fp_log.write("ap_id,idx,lat1,lat2,lon1,lon2,time1,time2,time_diff(s),dist(km),dist(km/hr),max_km/hr"+"\n")
     
 
@@ -185,7 +185,7 @@ def prepare_target_csv(raw_csv_dir, mapmatching_input_dir):
     #print("\n The following files are prepared: ")
     log_file0 = pathlib.Path(LOG_DIR, '0_input_summary.csv' )
     fp_log0 = open(log_file0, 'a')
-    fp_log0.write("Time,csvInput,originalAP_IDs,TimestampAggregatedAP_IDs,AP_IDsAfterJumpRemoved,originalRows,TimestampAggregatedRows,RowsAfterJumpRemoved"+"\n")
+    fp_log0.write("processedTime,csvInput,originalAP_IDs,TimestampAggregatedAP_IDs,AP_IDsAfterJumpRemoved,originalRows,TimestampAggregatedRows,RowsAfterJumpRemoved"+"\n")
     fp_log0.close()
 
     for csv in arr_csv:
@@ -247,6 +247,7 @@ def get_raw_files_main(raw_dir, mapmatching_input_dir, start_date ,end_date):
     selected_fields_dir_tmp = mapmatching_input_dir + 'tmp/'  ## extract selected fields and save intermediate csv
     
     arr_target_dates = get_date_list(start_date,end_date)
+    #print(arr_target_dates)
     arr_raw_files = get_all_files_from_dir(raw_dir, file_type='*.csv')# get the list of raw input files
     
     #print(arr_raw_files)
