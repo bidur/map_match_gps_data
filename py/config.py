@@ -12,7 +12,7 @@ shp_col_name      = 'NAME_2'   # config.py
 shp_target_value  = 'Gandaki'   # config.py
 '''
 min_gps_points_allowed = 5 # at least 5 input gps points must be present for each ap_id
-max_dist_per_hour_threshold = 100 # km
+max_dist_per_hour_threshold = 500 # km
 max_threads = 2 # How many threads to use?
 
 # say how much data to be used?
@@ -24,7 +24,7 @@ target_osm_pbf = 'philippines-latest.osm.pbf' #'philippines-latest.osm.pbf' #'ne
 ROOT_DIR 		=  os.getcwd()#'/home/bidur/map_match_gps_data/' #'C:/Users/epinurse/Desktop/PHL_Mobility_data/map_match_gps_data-main/'
 PY_DIR		 = pathlib.Path(ROOT_DIR, 'py')
 
-
+LOG_DIR 		= pathlib.Path(ROOT_DIR, 'logs')
 INPUT_DIR 		= pathlib.Path(ROOT_DIR, 'input')
 OUTPUT_DIR 		= pathlib.Path(ROOT_DIR, 'output')
 TEMP_DIR 		= pathlib.Path(OUTPUT_DIR, 'temp_csv') 

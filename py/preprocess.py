@@ -5,8 +5,9 @@ import shutil
 from geopy.distance import distance
 from datetime import datetime
 
-from config import  sampling_percent
-from config import  input_anonymized_clipped, input_preprocessed, max_dist_per_hour_threshold
+from config import  sampling_percent, max_dist_per_hour_threshold
+from config import  input_anonymized_clipped, input_preprocessed
+from functions import write2file
 
 def get_timestamp_from_str(ts_str):	
 	
@@ -42,67 +43,14 @@ def apply_sampling(sampling_percent, df_all):
 	#df[df.ap_id.isin(arr_ap_id)]
 	return df_sample
 
-def calc_distance(df, ap_id):
-    large_jump = False
-    df_temp = df.copy()
-    #display(df_temp) 
-    df_temp = df_temp.sort_values(by=['timestamp'], ascending=True)
-    df_temp = df_temp.reset_index(drop=True)
-    #display(df_temp)
-    
-    #print('len: ',len(df_temp))
-    for idx, row in df_temp.iterrows():
-        
-        if (idx+1 < len(df_temp)):
-            #print('idx', idx)
-            lat1 = df_temp.iloc[idx].latitude
-            lon1 = df_temp.iloc[idx].longitude
-            lat2 = df_temp.iloc[idx+1].latitude
-            lon2 = df_temp.iloc[idx+1].longitude
-            dist_covered = distance((lat1,lon1), (lat2,lon2)).km
-            
-            ts1 = df_temp.iloc[idx].timestamp
-            ts2 = df_temp.iloc[idx+1].timestamp
-            ts1 = get_timestamp_from_str(ts1)
-            ts2 = get_timestamp_from_str(ts2)
-            time_diff_sec = (ts2-ts1).total_seconds() + 1 # 1 added to avoid divide by zero case below
-            dist_covered_in_hour = (dist_covered * 3600)/time_diff_sec
-
-            #if dist_covered>10:# 10Km or more
-            if max_dist_per_hour_threshold < dist_covered_in_hour:
-                print(ap_id, 'JUMP >', ' threshold(km/hr):', max_dist_per_hour_threshold ,  'time taken(hr):', time_diff_sec/3600, ' dist_covered:', dist_covered)
-                #large_jump = True
-                return True
-    
-    #print("no jump FOR: " , ap_id)
-                
-    return large_jump
-
-def filter_by_distance(df):# remove ap_ids with jump
-    arr_ap_id = df.ap_id.unique() # duplicate ap_id
-    #print ('b4: ',df.ap_id.unique())
-    for ap_id in arr_ap_id:
-        #print("____processing", ap_id)
-        df_ap_id = df.query('ap_id == "'+str(ap_id)+'"')
-        large_jump = calc_distance(df_ap_id, ap_id)
-        if large_jump:
-            df = df[df['ap_id']!=ap_id]# remove all entries for this ap_id 
-            #print ("JUMP ", ap_id)
-    arr_ap_id_after = df.ap_id.unique() # duplicate ap_id
-    #print ('b4: ',df.ap_id.unique())
-    print('ap_id (all):' ,len(arr_ap_id), ' ap_id (No JUMPS):', len(arr_ap_id_after))
-    return df
-    
-    
-    
     
 def preprocess_data():
 	
-	df = pd.read_csv(input_anonymized_clipped)# 4900 rows
-	df['ap_id'] = df['ap_id'].apply(str) # ap_id are assumed to be string	
+	df = pd.read_csv(input_anonymized_clipped, usecols=['ap_id','timestamp','latitude','longitude']) 
+	df['ap_id'] = df['ap_id'].apply(str) # ap_id are assumed to be string
 	
     # filter out ap_ids with unrealistic JUMPs in distance
-	df = filter_by_distance(df) 
+	#df = filter_by_distance(df) 
 
 	#remove duplicate rows
 	df.drop_duplicates(inplace=True) # 48782rows

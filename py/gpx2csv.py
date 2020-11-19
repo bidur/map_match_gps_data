@@ -153,15 +153,28 @@ def get_nearest_row_id(id_done,pt_ref, df_route):
 	
 	if (id_done <0 ):
 		id_done = 0
+        
 	id_until = int(round( id_done + ( len(df_route) *0.1 ) 	) )
+	if id_until < 1:
+		id_until = 1 
 	id_until = len(df_route) if id_until > len(df_route) else id_until
-
-		
 	df_route_slice = df_route[id_done:id_until]
 
+	'''
+	print('id_done', id_done)
+	print (pt_ref)
+	display(df_route.head())
+	display (df_route_slice.head())
+	'''
+
 	
-	pts3 = df_route_slice.geometry.unary_union
-	
+	'''
+	print('pts3')
+	print (pts3)
+	print ("pt_ref")
+	print (pt_ref)
+	'''
+	pts3 = df_route_slice.geometry.unary_union    
 	nearest =  df_route_slice.geometry == nearest_points(pt_ref, pts3)[1] 
 	
 	list_ids = df_route_slice[nearest].id.values

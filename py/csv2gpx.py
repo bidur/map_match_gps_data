@@ -119,7 +119,7 @@ def prepare_csv_files(df,csv_dir):
 		sys.exit("Very Few Data")
 		
 	elif arr_id_with_few_data>0:
-		print('Very Few Data (<10 points) in << ',str(arr_id_with_few_data) , " >> ap_ids")
+		print('Very Few Data (<5 points) in << ',str(arr_id_with_few_data) , " >> ap_ids")
 		
 	print (cnt ,' csv file prepared and saved in ', csv_dir)
 	
